@@ -2,4 +2,4 @@
 ```
 winget install GnuWin32.Make
 ```
-After intall it will be at c:\Program Files (x86)\GnuWin32\bin\make.exe
+After install it will be at c:\Program Files (x86)\GnuWin32\bin\make.exe
