@@ -1,4 +1,5 @@
-MAKE on Windows (10, 11) 
+1. MAKE on Windows (10, 11) 
 ```
 winget install GnuWin32.Make
 ```
+After intall it will be at c:\Program Files (x86)\GnuWin32\bin\make.exe
