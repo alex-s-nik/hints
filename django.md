@@ -12,3 +12,7 @@ There is an official Django coding style which provides a recommended ordering f
 - custom methods
 
 [Source](https://learndjango.com/tutorials/django-best-practices-models)
+
+# Using DB views in Django ORM
+[Source](https://rescale.com/blog/using-database-views-in-django-orm/)
+
