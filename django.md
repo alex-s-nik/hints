@@ -16,3 +16,14 @@ There is an official Django coding style which provides a recommended ordering f
 # Using DB views in Django ORM
 [Source](https://rescale.com/blog/using-database-views-in-django-orm/)
 
+
+## Migrations for views
+If you have few migrations, last of those is data migration (for example # 0002) and you want to undo it for edit some data.
+First of all do the next:
+```
+> python manage.py migrate --fake <app_name> 0001
+```
+Then do data changes. After all do that:
+```
+> python manage.py migrate <app_name> 0002
+```
