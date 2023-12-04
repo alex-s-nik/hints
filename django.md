@@ -14,7 +14,8 @@ There is an official Django coding style which provides a recommended ordering f
 [Source](https://learndjango.com/tutorials/django-best-practices-models)
 
 # Using DB views in Django ORM
-[Source](https://rescale.com/blog/using-database-views-in-django-orm/)
+[Source 1](https://rescale.com/blog/using-database-views-in-django-orm/)
+[Source 2](https://www.laurencegellert.com/2020/07/querying-complex-data-in-django-with-views/)
 
 
 ## Migrations for views
