@@ -8,3 +8,7 @@ docker exec -u postgresuser containername psql dbname postgresuser -f /container
 psql -U <username> -c "CREATE DATABASE <db_name>"
 psql -U postgres -c "CREATE DATABASE one_more_db"
 ```
+3. Change timezone with console working
+```
+=# set timezone to 'Europe/Moscow'
+```
