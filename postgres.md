@@ -40,3 +40,4 @@ And alter the table
 ALTER TABLE runs ADD COLUMN userId bigint NOT NULL DEFAULT     
 id_in_users('admin@example.com');
 ```
+[source](https://stackoverflow.com/questions/25378806/set-default-value-in-postgresql-table-column-to-a-value-from-a-query)
