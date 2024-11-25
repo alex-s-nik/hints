@@ -9,3 +9,7 @@ sudo docker stop $(sudo docker ps -a -q)
 sudo docker container prune # or sudo docker rm $(sudo docker ps -a -q)
 sudo docker image rm $(sudo docker image ls -a -q)
 ```
+3. Run shell into docker container started from Windows Git Bash (this requires a double slash at the bash path)
+```
+docker run -it <container_name_or_ID> //bin/bash
+```
