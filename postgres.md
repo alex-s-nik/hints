@@ -41,3 +41,24 @@ ALTER TABLE runs ADD COLUMN userId bigint NOT NULL DEFAULT
 id_in_users('admin@example.com');
 ```
 [source](https://stackoverflow.com/questions/25378806/set-default-value-in-postgresql-table-column-to-a-value-from-a-query)
+
+6. Standart name for indexes
+
+The standard names for indexes in PostgreSQL are:
+
+```
+{tablename}_{columnname(s)}_{suffix}
+```
+
+where the suffix is one of the following:
+- **pkey** for a Primary Key constraint
+- **key** for a Unique constraint
+- **excl** for an Exclusion constraint
+- **idx** for any other kind of index
+- **fkey** for a Foreign key
+- **check** for a Check constraint
+
+Standard suffix for sequences is
+- **seq** for all sequences
+
+[source](https://stackoverflow.com/questions/4107915/postgresql-default-constraint-names/4108266#4108266)
