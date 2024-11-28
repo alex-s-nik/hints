@@ -6,6 +6,7 @@
 
 **4. Отменить изменения в конкрентном файле последнего коммита**
 
+**5. Внести изменения в любой коммит в середине**
 
 **1. Undo a commit & redo**
 ```bash
@@ -133,3 +134,6 @@ $ git commit --amend
 $ git rm --cached example.txt
 $ git commit --amend
 ```
+**5. Внести изменения в любой коммит в середине**
+
+[https://confluence.atlassian.com/stashkb/how-do-you-make-changes-on-a-specific-commit-747831891.html](https://confluence.atlassian.com/stashkb/how-do-you-make-changes-on-a-specific-commit-747831891.html)
