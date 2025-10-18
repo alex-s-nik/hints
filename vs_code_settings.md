@@ -20,6 +20,13 @@ settings.json
     },
     "editor.codeActionsOnSave": {
 
+    },
+    "[css]": {
+        "editor.defaultFormatter": "vscode.html-language-features",
+        "editor.tabSize": 2
+    },
+    "[django-html]": {    
+        "editor.tabSize": 2
     }
 }
 ```
