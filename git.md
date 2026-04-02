@@ -8,6 +8,8 @@
 
 **5. Внести изменения в любой коммит в середине**
 
+**6. Компактный вывод истории коммитов**
+
 **1. Undo a commit & redo**
 ```bash
 $ git commit -m "Something terribly misguided" # (0: Your Accident)
@@ -137,3 +139,24 @@ $ git commit --amend
 **5. Внести изменения в любой коммит в середине**
 
 [https://confluence.atlassian.com/stashkb/how-do-you-make-changes-on-a-specific-commit-747831891.html](https://confluence.atlassian.com/stashkb/how-do-you-make-changes-on-a-specific-commit-747831891.html)
+
+**6. Компактный вывод истории коммитов**
+```bash
+$ git log --oneline
+```
+
+```bash
+$ git log --pretty=format:"%h %ad %s" --date=human
+```
+, где
+```
+# %h  - сокращенный хеш
+# %ad - дата коммита (формат зависит от --date)
+# %an - имя автора (в примере не используется)
+# %s  - сообщение коммита
+# --date=short - формат даты YYYY-MM-DD или --date=human - формат даты без вывода часового пояса
+```
+Результат:
+```
+33fa350 9 minutes ago Сообщение коммита
+```
