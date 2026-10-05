@@ -10,6 +10,8 @@
 
 **6. Компактный вывод истории коммитов**
 
+**7. Ошибка Filename too long при добавлении файлов в индекс**
+
 **1. Undo a commit & redo**
 ```bash
 $ git commit -m "Something terribly misguided" # (0: Your Accident)
@@ -160,3 +162,13 @@ $ git log --pretty=format:"%h %ad %s" --date=human
 ```
 33fa350 9 minutes ago Сообщение коммита
 ```
+**7. Ошибка Filename too long при добавлении файлов в индекс**
+
+Для локального репозитория
+
+```bash
+$ git config core.longpaths true
+```
+
+Либо в Win >=10 можно решить вопрос кардинально, включив по умолчанию опцию для поддержки длинных имен файлов
+[https://gist.github.com/leodutra/a25bc1f51e8779943df0a95d5a4839d1](https://gist.github.com/leodutra/a25bc1f51e8779943df0a95d5a4839d1)
