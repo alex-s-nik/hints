@@ -12,6 +12,8 @@
 
 **7. Ошибка Filename too long при добавлении файлов в индекс**
 
+**8. Смена ссылки на удаленный репозиторий при изменении адреса репозитория или метода доступа к нему(например, с https на ssh)**
+
 **1. Undo a commit & redo**
 ```bash
 $ git commit -m "Something terribly misguided" # (0: Your Accident)
@@ -172,3 +174,244 @@ $ git config core.longpaths true
 
 Либо в Win >=10 можно решить вопрос кардинально, включив по умолчанию опцию для поддержки длинных имен файлов
 [https://gist.github.com/leodutra/a25bc1f51e8779943df0a95d5a4839d1](https://gist.github.com/leodutra/a25bc1f51e8779943df0a95d5a4839d1)
+
+
+**8. Смена ссылки на удаленный репозиторий при изменении адреса репозитория или метода доступа к нему(например, с https на ssh)**
+
+В Git remote — это просто именованная ссылка на URL удаленного репозитория. Обычно:
+
+origin — основной удаленный репозиторий, созданный по умолчанию при клонировании;
+могут быть и другие remote, например: upstream — оригинальный репозиторий, если вы сделали fork;backup — дополнительный репозиторий для резервного копирования.
+Посмотреть список remote можно так:
+
+```bash
+git remote -v
+# origin  git@github.com:user/project.git (fetch)   // URL для получения изменений
+# origin  git@github.com:user/project.git (push)    // URL для отправки изменений
+```
+
+Каждый remote имеет свой URL. Именно его вы будете менять с помощью git remote set-url.
+
+#### Команда git remote set-url — базовый синтаксис
+Команда git remote set-url позволяет изменить URL, привязанный к конкретному remote.
+
+Базовый синтаксис:
+
+```bash
+git remote set-url <имя-remote> <новый-URL>
+```
+Где:
+
+<имя-remote> — обычно origin, но может быть любое другое имя;
+<новый-URL> — новый путь до удаленного репозитория (SSH или HTTPS).
+
+Пример:
+
+```bash
+git remote set-url origin git@github.com:user/new-project.git
+// Меняем URL для remote origin на новый SSH-адрес
+```
+
+После этого команда git push origin main будет отправлять данные уже по новому адресу.
+
+Просмотр текущих URL удаленных репозиториев
+Прежде чем что-то менять, лучше убедиться, какие remote уже настроены.
+
+Список всех remote с URL
+```bash
+git remote -v
+// Показывает все удаленные репозитории и их URL
+```
+
+Пример вывода:
+
+```bash
+origin  https://github.com/user/old-project.git (fetch)
+origin  https://github.com/user/old-project.git (push)
+upstream  git@github.com:org/main-repo.git (fetch)
+upstream  git@github.com:org/main-repo.git (push)
+```
+
+Здесь вы видите:
+
+два remote: origin и upstream;
+для каждого указаны URL для fetch и push.
+Получение URL только одного remote
+Если вам нужно посмотреть URL конкретного remote:
+
+```bash
+git remote get-url origin
+// Показывает URL, привязанный к remote origin (обычно для fetch)
+```
+
+Можно вывести URL сразу для всех:
+
+```bash
+git remote get-url --all origin
+// Покажет URL для fetch и push, если они отличаются
+```
+
+Типичные сценарии использования git remote set-url
+Давайте разберем самые частые ситуации, когда вам нужно изменить URL удаленного репозитория.
+
+1. Переезд репозитория на другой хостинг
+Например, вы перенесли проект с GitHub на GitLab.
+
+Старый URL:
+
+https://github.com/user/project.git
+Новый URL:
+
+git@gitlab.com:user/project.git
+Пошагово:
+
+```bash
+git remote -v
+// Проверяем текущий URL
+
+git remote set-url origin git@gitlab.com:user/project.git
+// Меняем URL для origin на адрес GitLab
+
+git remote -v
+// Убеждаемся, что URL обновился
+```
+
+Теперь все git push и git pull будут работать с GitLab.
+
+2. Переход с HTTPS на SSH (или наоборот)
+Многие начинают работать с Git по HTTPS, а позже переходят на SSH для удобства (чтобы не вводить пароль каждый раз).
+
+Переход HTTPS → SSH
+Старый URL:
+
+https://github.com/user/project.git
+Новый URL:
+
+git@github.com:user/project.git
+Команда:
+
+git remote set-url origin git@github.com:user/project.git
+// Переключаем origin на SSH-URL
+Переход SSH → HTTPS
+Старый URL:
+
+git@github.com:user/project.git
+Новый URL:
+
+https://github.com/user/project.git
+Команда:
+
+```bash
+git remote set-url origin https://github.com/user/project.git
+// Переключаем origin на HTTPS-URL
+```
+
+Обратите внимание
+Формат SSH и HTTPS URL отличается, но Git одинаково хорошо понимает оба варианта, если вы корректно настроили доступ.
+
+3. Переименование или перенос репозитория на том же сервере
+Бывает, что репозиторий просто переименовали, не меняя хостинг:
+
+было: https://git.company.com/team/old-name.git
+стало: https://git.company.com/team/new-name.git
+В этом случае:
+
+```bash
+git remote set-url origin https://git.company.com/team/new-name.git
+// Меняем только путь, хост остается прежним
+```
+
+Изменение URL только для fetch или только для push
+Иногда вам нужно, чтобы Git получал изменения (fetch) из одного места, а отправлял (push) — в другое. Это менее распространенный, но вполне рабочий сценарий.
+
+Например:
+
+вы читаете изменения из центрального репозитория компании;
+пушите их в свой форк.
+Разные URL для fetch и push
+Смотрите, я покажу вам схему:
+
+fetch: git@github.com:company/project.git
+push: git@github.com:your-account/project.git
+Настроить это можно так:
+
+```bash
+git remote set-url --fetch origin git@github.com:company/project.git
+// Устанавливаем URL для получения изменений
+
+git remote set-url --push origin git@github.com:your-account/project.git
+// Устанавливаем URL для отправки изменений
+Проверяем:
+
+git remote -v
+// origin  git@github.com:company/project.git (fetch)
+// origin  git@github.com:your-account/project.git (push)
+```
+
+Теперь вы:
+
+получаете обновления из репозитория компании;
+отправляете свои изменения в собственный форк.
+Восстановление одного URL и для fetch, и для push
+Если вы хотите вернуть одинаковый URL для обоих направлений:
+
+```bash
+git remote set-url origin git@github.com:your-account/project.git
+// Этот URL будет использоваться и для fetch и для push
+```
+
+После этого git remote -v покажет одинаковые строки для обеих операций.
+
+Добавление и переименование remote против изменения URL
+Иногда вместо git remote set-url лучше использовать другие команды. Давайте разберем, когда что применять.
+
+Когда использовать git remote set-url
+Используйте git remote set-url, если:
+
+только URL изменился, а логика работы с remote осталась прежней;
+вы просто переехали на другой сервер;
+поменялся протокол (SSH ↔ HTTPS), но сам репозиторий тот же.
+Тогда достаточно одной команды:
+
+```bash
+git remote set-url origin <новый-URL>
+```
+
+Когда лучше добавить новый remote
+Если вы хотите работать с двумя разными удаленными репозиториями одновременно, правильнее не менять URL, а добавить новый remote:
+
+```bash
+git remote add backup git@gitlab.com:user/project-backup.git
+// Добавляем дополнительный удаленный репозиторий backup
+```
+
+Теперь:
+
+origin — основной;
+backup — дополнительный, например, для резервного копирования.
+Отправка в конкретный remote:
+
+```bash
+git push origin main
+// Отправляем изменения в origin
+
+git push backup main
+// Отправляем те же изменения в резервный репозиторий backup
+```
+
+Когда переименовать remote (git remote rename)
+Если вам нужно просто поменять имя remote (например, из origin в github), используйте:
+
+```bash
+git remote rename origin github
+// Меняем имя remote origin на github, URL при этом не меняется
+```
+
+А затем при необходимости меняйте его URL:
+
+```bash
+git remote set-url github git@github.com:user/project.git
+// Обновляем адрес для нового имени remote
+```
+
+[https://purpleschool.ru/knowledge-base/git/remote/set_url](https://purpleschool.ru/knowledge-base/git/remote/set_url)
